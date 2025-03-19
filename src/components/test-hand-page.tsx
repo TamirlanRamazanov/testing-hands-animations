@@ -1,39 +1,40 @@
 "use client"
 
 import type { FC } from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import DeckComponent from "./deck-component"
 import CardHandComponent from "./card-hand-component"
+import { CardData, CARDS_DATA } from "../constants/cards"
 
 interface TestHandPageProps {
     goToMain: () => void
 }
 
-// Simple card type for our state management
-interface Card {
-    id: number
-    value: string
-}
-
 const TestHandPage: FC<TestHandPageProps> = ({ goToMain }) => {
-    // Начинаем с пустой руки
-    const [cards, setCards] = useState<Card[]>([])
-    const [nextCardId, setNextCardId] = useState(1)
+    const [cards, setCards] = useState<CardData[]>([]) // карты в руке
+    const [deck, setDeck] = useState<CardData[]>([]) // карты в колоде
+
+    // Инициализация перемешанной колоды при первой загрузке
+    useEffect(() => {
+        const shuffledDeck = [...CARDS_DATA].sort(() => Math.random() - 0.5);
+        setDeck(shuffledDeck);
+    }, []);
 
     // Add a card to the hand
     const addCard = () => {
-        const newCard = {
-            id: nextCardId,
-            value: `Card ${nextCardId}`,
-        }
-        setCards([...cards, newCard])
-        setNextCardId(nextCardId + 1)
+        if (deck.length === 0) return; // если колода пуста
+
+        const [nextCard, ...remainingDeck] = deck;
+        setCards([...cards, nextCard]);
+        setDeck(remainingDeck);
     }
 
     // Remove the last card from the hand
     const removeCard = () => {
         if (cards.length > 0) {
-            setCards(cards.slice(0, -1))
+            const removedCard = cards[cards.length - 1];
+            setCards(cards.slice(0, -1));
+            setDeck([...deck, removedCard]); // возвращаем карту в колоду
         }
     }
 
@@ -43,7 +44,7 @@ const TestHandPage: FC<TestHandPageProps> = ({ goToMain }) => {
             <div className="flex-1 flex items-center justify-center">
                 {/* Deck on the left side */}
                 <div className="absolute left-8 top-1/2 transform -translate-y-1/2">
-                    <DeckComponent />
+                    <DeckComponent remainingCards={deck.length} />
                 </div>
 
                 {/* Card hand in the center - добавлен mt-20 для отступа сверху */}

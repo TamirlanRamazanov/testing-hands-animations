@@ -2,9 +2,10 @@
 
 import { useEffect, useState, useMemo } from "react"
 import Card from "./card"
+import { CardData } from "../constants/cards"
 
 interface CardHandComponentProps {
-    cards: { id: number; value: string }[]
+    cards: CardData[];
 }
 
 const CardHandComponent: React.FC<CardHandComponentProps> = ({ cards }) => {
@@ -69,7 +70,15 @@ const CardHandComponent: React.FC<CardHandComponentProps> = ({ cards }) => {
         <div className="relative w-full h-full overflow-hidden">
             <div className="absolute left-1/2 top-1/2 w-0 h-0">
                 {cardPositions.map(({ card, style }) => (
-                    <Card key={card.id} value={card.value} style={style} />
+                    <Card 
+                        key={card.id} 
+                        value={{
+                            name: card.name,
+                            power: card.power,
+                            image: card.image
+                        }} 
+                        style={style} 
+                    />
                 ))}
             </div>
         </div>
