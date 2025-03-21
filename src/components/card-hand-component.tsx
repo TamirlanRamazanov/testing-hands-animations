@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react"
 import Card from "./card"
-import { CardData } from "../constants/cards"
+import { CardData } from "@/constants/cards"
 
 interface CardHandComponentProps {
     cards: CardData[];
@@ -30,13 +30,13 @@ const CardHandComponent: React.FC<CardHandComponentProps> = ({ cards }) => {
         const handCount = cards.length
         if (handCount === 0) return []
 
-        const radius = dimensions.height * 0.7
+        const radius = dimensions.height * 2.
         const maxVisibleCards = 10
-        const totalAngleRad = Math.PI / 3 // 90 градусов
+        const totalAngleRad = Math.PI / 5 // 90 градусов
 
         // Для первых карт используем меньший угол, который постепенно увеличивается
-        const currentTotalAngle = handCount <= maxVisibleCards 
-            ? (totalAngleRad * handCount) / maxVisibleCards 
+        const currentTotalAngle = handCount <= maxVisibleCards
+            ? (totalAngleRad * handCount) / maxVisibleCards
             : totalAngleRad
 
         const deltaAngleRad = currentTotalAngle / (Math.min(handCount, maxVisibleCards) - 1 || 1)
@@ -49,7 +49,7 @@ const CardHandComponent: React.FC<CardHandComponentProps> = ({ cards }) => {
 
             const angleRad = startAngleRad + deltaAngleRad * adjustedIndex
             const x = -Math.cos(angleRad) * radius
-            const y = -Math.sin(angleRad) * radius + radius * 0.5
+            const y = -Math.sin(angleRad) * radius + radius * 0.96
             
             // Добавляем дополнительный поворот для первой карты
             const rotateDeg = index === 0 
@@ -67,8 +67,18 @@ const CardHandComponent: React.FC<CardHandComponentProps> = ({ cards }) => {
     }, [cards, dimensions])
 
     return (
-        <div className="relative w-full h-full overflow-hidden">
-            <div className="absolute left-1/2 top-1/2 w-0 h-0">
+        <div 
+            className="relative  flex items-top justify-center" 
+            style={{ 
+                background: 'rgba(255, 192, 203, 0.3)',
+                border: '2px solid rgba(255, 192, 203, 0.5)',
+                width: '1150px',  // или другое подходящее значение
+                height: '400px', 
+                paddingRight: '150px',
+                paddingTop: '130px',
+            }}
+        >
+            <div className="absolute w-0 h-0">
                 {cardPositions.map(({ card, style }) => (
                     <Card 
                         key={card.id} 

@@ -461,9 +461,9 @@ export const CARDS_DATA: CardData[] = [
 ];
 
 export const CARD_DIMENSIONS = {
-  width: 1583,
-  height: 2355,
-  scale: 0.09
+  width: 158.3,
+  height: 235.5,
+  scale: 1
 };
 
 export const DECK_SIZE = 60;

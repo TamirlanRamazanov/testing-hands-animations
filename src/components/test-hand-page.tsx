@@ -4,7 +4,7 @@ import type { FC } from "react"
 import { useState, useEffect } from "react"
 import DeckComponent from "./deck-component"
 import CardHandComponent from "./card-hand-component"
-import { CardData, CARDS_DATA } from "../constants/cards"
+import { CardData, CARDS_DATA } from "@/constants/cards"
 
 interface TestHandPageProps {
     goToMain: () => void
@@ -47,8 +47,15 @@ const TestHandPage: FC<TestHandPageProps> = ({ goToMain }) => {
                     <DeckComponent remainingCards={deck.length} />
                 </div>
 
-                {/* Card hand in the center - добавлен mt-20 для отступа сверху */}
-                <div className="w-full max-w-4xl h-[80vh] flex items-center justify-center mt-16">
+                {/* Card hand in the center */}
+                <div className="w-full max-w-7xlh-[80vh] flex items-center justify-center" 
+                    style={{ 
+                        // marginTop: '100px',  // или любое другое значение в пикселях
+                        // или можно использовать transform
+                        transform: 'translateY(140px) translateX(80px)'
+                        
+                        
+                    }}>
                     <CardHandComponent cards={cards} />
                 </div>
             </div>
